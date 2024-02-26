@@ -8,7 +8,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/testutil"
 
-	// codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
@@ -63,7 +62,7 @@ func SimulateMsgCreateVestingAccount(
 	txGen client.TxConfig,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
-	_ types.StakingKeeper,
+	sk types.StakingKeeper,
 ) simtypes.Operation {
 	return func(
 		r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context,
@@ -134,12 +133,12 @@ func SimulateMsgCreateVestingAccount(
 		// 	Op:          op,
 		// })
 
-		// // then funder claws back
-		// op2 := simulateMsgClawbackFutureOp(txGen, ak, bk, sk, recipient, funder)
-		// futureOps = append(futureOps, simtypes.FutureOperation{
-		// 	BlockHeight: int(ctx.BlockHeight()) + 1,
-		// 	Op:          op2,
-		// })
+		// then funder claws back
+		op2 := simulateMsgClawbackFutureOp(txGen, ak, bk, sk, recipient, funder)
+		futureOps = append(futureOps, simtypes.FutureOperation{
+			BlockHeight: int(ctx.BlockHeight()) + 10,
+			Op:          op2,
+		})
 
 		return simtypes.NewOperationMsg(msg, true, ""), futureOps, nil
 	}
