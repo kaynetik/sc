@@ -1,6 +1,7 @@
 package simulation
 
 import (
+	"fmt"
 	"math/rand"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -51,10 +52,10 @@ func WeightedOperations(
 			weightMsgCreateVestingAccount,
 			SimulateMsgCreateVestingAccount(txGen, ak, bk, sk),
 		),
-		simulation.NewWeightedOperation(
-			weightMsgClawback,
-			SimulateMsgClawback(txGen, ak, bk, sk),
-		),
+		// simulation.NewWeightedOperation(
+		// 	weightMsgClawback,
+		// 	SimulateMsgClawback(txGen, ak, bk, sk),
+		// ),
 	}
 }
 
@@ -63,7 +64,7 @@ func SimulateMsgCreateVestingAccount(
 	txGen client.TxConfig,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
-	_ types.StakingKeeper,
+	sk types.StakingKeeper,
 ) simtypes.Operation {
 	return func(
 		r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context,
@@ -119,10 +120,15 @@ func SimulateMsgCreateVestingAccount(
 			return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "unable to generate mock tx"), nil, err
 		}
 
+		recipientAcc := ak.GetAccount(ctx, recipient.Address)
+
 		_, _, err = app.SimDeliver(txGen.TxEncoder(), tx)
 		if err != nil {
 			return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "unable to deliver tx"), nil, err
 		}
+
+		recipientAcc = ak.GetAccount(ctx, recipient.Address)
+		fmt.Println(recipientAcc)
 
 		// TO-DO activate future operations
 		// // future operations
@@ -134,12 +140,12 @@ func SimulateMsgCreateVestingAccount(
 		// 	Op:          op,
 		// })
 
-		// // then funder claws back
-		// op2 := simulateMsgClawbackFutureOp(txGen, ak, bk, sk, recipient, funder)
-		// futureOps = append(futureOps, simtypes.FutureOperation{
-		// 	BlockHeight: int(ctx.BlockHeight()) + 1,
-		// 	Op:          op2,
-		// })
+		// then funder claws back
+		op2 := simulateMsgClawbackFutureOp(txGen, ak, bk, sk, recipient, funder)
+		futureOps = append(futureOps, simtypes.FutureOperation{
+			BlockHeight: int(ctx.BlockHeight()) + 1,
+			Op:          op2,
+		})
 
 		return simtypes.NewOperationMsg(msg, true, ""), futureOps, nil
 	}
@@ -304,7 +310,6 @@ func simulateMsgDelegate(
 	}
 }
 
-//nolint:unused
 func simulateMsgClawbackFutureOp(
 	txGen client.TxConfig,
 	ak types.AccountKeeper,
@@ -318,6 +323,18 @@ func simulateMsgClawbackFutureOp(
 		accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		msgType := sdk.MsgTypeURL(&types.MsgClawback{})
+
+		// recipientAcc := ak.GetAccount(ctx, recipient.Address)
+		// if recipientAcc == nil {
+		// 	panic("you know it")
+		// }
+		// vestingAcc, isClawback := recipientAcc.(*types.ClawbackContinuousVestingAccount)
+		// if !isClawback {
+		// 	return simtypes.NoOpMsg(types.ModuleName, msgType, "not a vesting account"), nil, nil
+		// }
+		// if vestingAcc.GetVestingCoins(ctx.BlockTime()).IsZero() {
+		// 	return simtypes.NoOpMsg(types.ModuleName, msgType, "vesting account not vesting anymore"), nil, nil
+		// }
 
 		funder, found := simtypes.FindAccount(accs, funder.Address)
 		if !found {

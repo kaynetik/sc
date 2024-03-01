@@ -149,7 +149,7 @@ func TestAppStateDeterminism(t *testing.T) {
 			bApp := app.NewApp(
 				logger,
 				db,
-				nil,
+				os.Stdout, //nil,
 				true,
 				map[int64]bool{},
 				app.DefaultNodeHome,
@@ -157,6 +157,8 @@ func TestAppStateDeterminism(t *testing.T) {
 				appOptions,
 				fauxMerkleModeOpt,
 				baseapp.SetChainID(chainID),
+				baseapp.SetOptimisticExecution(),
+				baseapp.SetTrace(true),
 			)
 
 			fmt.Printf(

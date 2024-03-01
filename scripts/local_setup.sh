@@ -41,7 +41,7 @@ add_key_and_account "satoshi" "100000000000000000seda"
 add_key_and_account "acc1" "100000000000000000seda"
 
 # create a default validator
-$BIN gentx satoshi 10000000000000000seda --keyring-backend test
+$BIN gentx satoshi 10000000000000000seda --keyring-backend test --from satoshi
 
 # collect genesis txns
 $BIN collect-gentxs
