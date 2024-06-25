@@ -143,8 +143,8 @@ func GetCmdQueryOverlayWasms() *cobra.Command {
 // Proxy Contract registry.
 func GetCmdQueryProxyContractRegistry() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "proxy-contract-registry",
-		Short: "Get the address of Proxy Contract",
+		Use:   "seda-contract-registry",
+		Short: "Get the address of SEDA Contract",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
