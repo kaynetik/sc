@@ -3,7 +3,12 @@ package types
 const (
 	EventTypeStoreDataRequestWasm = "store_data_request_wasm"
 	EventTypeOverlayWasm          = "store_overlay_wasm"
+	EventTypeTallyCompletion      = "tally_completion"
+	EventTypeWasmExpiration       = "wasm_expiration"
 
-	AttributeHash     = "hash"
-	AttributeWasmType = "wasm_type"
+	AttributeWasmHash        = "wasm_hash"
+	AttributeWasmType        = "wasm_type"
+	AttributeRequestID       = "request_id"
+	AttributeTypeConsensus   = "consensus"
+	AttributeTypeTallyVMArgs = "tally_vm_arguments"
 )

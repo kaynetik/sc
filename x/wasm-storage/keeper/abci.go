@@ -7,9 +7,13 @@ import (
 	"errors"
 	"fmt"
 	"sort"
+	"strconv"
+	"strings"
 
 	"cosmossdk.io/collections"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	"github.com/sedaprotocol/seda-chain/x/wasm-storage/types"
 	"github.com/sedaprotocol/seda-wasm-vm/tallyvm"
 )
 
@@ -39,6 +43,13 @@ func (k Keeper) ProcessExpiredWasms(ctx sdk.Context) error {
 		if err := k.WasmExpiration.Remove(ctx, collections.Join(blockHeight, wasmHash)); err != nil {
 			return err
 		}
+
+		ctx.EventManager().EmitEvent(
+			sdk.NewEvent(
+				types.EventTypeWasmExpiration,
+				sdk.NewAttribute(types.AttributeWasmHash, hex.EncodeToString(wasmHash)),
+			),
+		)
 	}
 	return nil
 }
@@ -171,6 +182,14 @@ func (k Keeper) ExecuteTally(ctx sdk.Context) error {
 			"tally flow completed",
 			"request_id", req.ID,
 			"post_result", postRes,
+		)
+		ctx.EventManager().EmitEvent(
+			sdk.NewEvent(
+				types.EventTypeTallyCompletion,
+				sdk.NewAttribute(types.AttributeRequestID, req.ID),
+				sdk.NewAttribute(types.AttributeTypeConsensus, strconv.FormatBool(consensus)),
+				sdk.NewAttribute(types.AttributeTypeTallyVMArgs, strings.Join(args, ", ")),
+			),
 		)
 	}
 
