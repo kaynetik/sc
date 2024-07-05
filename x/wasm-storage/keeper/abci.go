@@ -203,10 +203,12 @@ func (k Keeper) filterAndTally(ctx sdk.Context, req Request) (vmRes tallyvm.VmRe
 		"consensus", consensus,
 		"arguments", args,
 	)
-	vmRes = tallyvm.ExecuteTallyVm(tallyWasm.Bytecode, args, map[string]string{
-		"VM_MODE":   "tally",
-		"CONSENSUS": fmt.Sprintf("%v", consensus),
-	})
+	vmRes = tallyvm.ExecuteTallyVm(
+		k.homepath,
+		tallyWasm.Bytecode, args, map[string]string{
+			"VM_MODE":   "tally",
+			"CONSENSUS": fmt.Sprintf("%v", consensus),
+		})
 	return vmRes, consensus, nil
 }
 

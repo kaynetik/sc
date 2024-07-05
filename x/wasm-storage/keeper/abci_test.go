@@ -37,10 +37,11 @@ func TestTallyVM(t *testing.T) {
 			expErr:      "",
 		},
 	}
+	tempDir := t.TempDir()
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			result := tallyvm.ExecuteTallyVm(testdata.SampleTallyWasm(), tc.args, map[string]string{
+			result := tallyvm.ExecuteTallyVm(tempDir, testdata.SampleTallyWasm(), tc.args, map[string]string{
 				"VM_MODE":   "tally",
 				"CONSENSUS": "true",
 			})

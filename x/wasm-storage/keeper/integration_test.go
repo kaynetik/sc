@@ -162,6 +162,7 @@ func initFixture(tb testing.TB) *fixture {
 	viewKeeper := testutil.NewMockViewKeeper(ctrl)
 
 	wasmStorageKeeper := keeper.NewKeeper(
+		tempDir,
 		cdc,
 		runtime.NewKVStoreService(keys[types.StoreKey]),
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),

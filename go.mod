@@ -43,7 +43,7 @@ require (
 	github.com/ory/dockertest/v3 v3.10.0
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.32.0
-	github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.1
+	github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.2-0.20240705223530-11e19f177048
 	github.com/sedaprotocol/vrf-go v0.0.0-20231211075603-e5a17bb0b87c
 	github.com/spf13/cast v1.6.0
 	github.com/spf13/cobra v1.8.0

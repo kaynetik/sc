@@ -61,8 +61,9 @@ func setupKeeper(t *testing.T, authority string) (*keeper.Keeper, moduletestutil
 	ctx := testCtx.Ctx
 	encCfg := moduletestutil.MakeTestEncodingConfig(wasmstorage.AppModuleBasic{})
 	wasmstoragetypes.RegisterInterfaces(encCfg.InterfaceRegistry)
+	tempDir := t.TempDir()
 
-	wasmStorageKeeper := keeper.NewKeeper(encCfg.Codec, runtime.NewKVStoreService(key), authority, nil, nil, nil, nil)
+	wasmStorageKeeper := keeper.NewKeeper(tempDir, encCfg.Codec, runtime.NewKVStoreService(key), authority, nil, nil, nil, nil)
 
 	return wasmStorageKeeper, encCfg, ctx
 }

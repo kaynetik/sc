@@ -31,9 +31,11 @@ type Keeper struct {
 	WasmExpiration        collections.KeySet[collections.Pair[int64, []byte]]
 	ProxyContractRegistry collections.Item[string]
 	Params                collections.Item[types.Params]
+
+	homepath string
 }
 
-func NewKeeper(cdc codec.BinaryCodec, storeService storetypes.KVStoreService, authority string, ak types.AccountKeeper, bk types.BankKeeper, wk wasmtypes.ContractOpsKeeper, wvk wasmtypes.ViewKeeper) *Keeper {
+func NewKeeper(homepath string, cdc codec.BinaryCodec, storeService storetypes.KVStoreService, authority string, ak types.AccountKeeper, bk types.BankKeeper, wk wasmtypes.ContractOpsKeeper, wvk wasmtypes.ViewKeeper) *Keeper {
 	sb := collections.NewSchemaBuilder(storeService)
 
 	k := Keeper{
@@ -47,6 +49,7 @@ func NewKeeper(cdc codec.BinaryCodec, storeService storetypes.KVStoreService, au
 		WasmExpiration:        collections.NewKeySet(sb, types.WasmExpPrefix, "wasm_expiration", collections.PairKeyCodec(collections.Int64Key, collections.BytesKey)),
 		ProxyContractRegistry: collections.NewItem(sb, types.ProxyContractRegistryPrefix, "proxy_contract_registry", collections.StringValue),
 		Params:                collections.NewItem(sb, types.ParamsPrefix, "params", codec.CollValue[types.Params](cdc)),
+		homepath:              homepath,
 	}
 
 	schema, err := sb.Build()
