@@ -15,7 +15,7 @@ RUN apk add --no-cache \
     build-base \
     linux-headers \
     binutils-gold \
-    musl-tools
+    musl-dev
 
 # Download go dependencies
 WORKDIR /seda-chain
