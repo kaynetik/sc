@@ -42,7 +42,7 @@ RUN ARCH=x86_64 && wget https://raw.githubusercontent.com/sedaprotocol/seda-wasm
 # Build sedad binary for amd64
 RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/root/go/pkg/mod \
-    GOWORK=off CC=musl-gcc go build \
+    GOWORK=off CC=x86_64-alpine-linux-musl-gcc go build \
         -mod=readonly \
         -tags "netgo,ledger,muslc" \
         -ldflags \
