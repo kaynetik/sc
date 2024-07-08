@@ -1011,6 +1011,8 @@ github.com/sedaprotocol/rosetta-seda v0.0.0-20240427181737-e1d7563b2529 h1:VbJcd
 github.com/sedaprotocol/rosetta-seda v0.0.0-20240427181737-e1d7563b2529/go.mod h1:GdlDqGJN2g55PHiwYJs2bQMlL0rdlQQbauK4dcrOI6w=
 github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.1 h1:TFD8UFBH7WXggRGkS+vkpD1DPtBKtcyza91HQn1ORxE=
 github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.1/go.mod h1:AaX9uRy6qD2q+o1SapTRnGUe9HHZWTmBN2BVNAptq3U=
+github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.2-0.20240705204104-6f8df1254935 h1:IW+NadEGwjPcHY/WWTIq4VYFXfID9pAIfgLIrcDYRpQ=
+github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.2-0.20240705204104-6f8df1254935/go.mod h1:AaX9uRy6qD2q+o1SapTRnGUe9HHZWTmBN2BVNAptq3U=
 github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.2-0.20240705223530-11e19f177048 h1:vTi6QDdwsNajuJtPi+0P0qWVmzRWIdUGhdaekVYbOMU=
 github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.2-0.20240705223530-11e19f177048/go.mod h1:AaX9uRy6qD2q+o1SapTRnGUe9HHZWTmBN2BVNAptq3U=
 github.com/sedaprotocol/seda-wasm-vm/tallyvm v1.0.2-0.20240706000538-998703f434fe h1:OnM/w/eklN0mVio9au4JWoHAp+Sen2oqNbXLKTpxkuw=
