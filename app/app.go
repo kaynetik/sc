@@ -141,6 +141,9 @@ import (
 	wasmstorage "github.com/sedaprotocol/seda-chain/x/wasm-storage"
 	wasmstoragekeeper "github.com/sedaprotocol/seda-chain/x/wasm-storage/keeper"
 	wasmstoragetypes "github.com/sedaprotocol/seda-chain/x/wasm-storage/types"
+
+	// Used in cosmos-sdk when registering the route for swagger docs.
+	_ "github.com/sedaprotocol/seda-chain/client/docs/statik"
 )
 
 const (
@@ -1073,7 +1076,7 @@ func (app *App) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
 
 // RegisterAPIRoutes registers all application module routes with the provided
 // API server.
-func (app *App) RegisterAPIRoutes(apiSvr *api.Server, _ config.APIConfig) {
+func (app *App) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
 	clientCtx := apiSvr.ClientCtx
 	// Register new tx routes from grpc-gateway.
 	authtx.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
@@ -1086,6 +1089,11 @@ func (app *App) RegisterAPIRoutes(apiSvr *api.Server, _ config.APIConfig) {
 
 	// Register grpc-gateway routes for all modules.
 	app.bmm.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
+
+	// register swagger API from root so that other applications can override easily
+	if err := server.RegisterSwaggerAPI(apiSvr.ClientCtx, apiSvr.Router, apiConfig.Swagger); err != nil {
+		panic(err)
+	}
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.
