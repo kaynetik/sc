@@ -171,7 +171,8 @@ type MsgEditDataProxy struct {
 	NewFee           *types.Coin `protobuf:"bytes,4,opt,name=new_fee,json=newFee,proto3" json:"new_fee,omitempty"`
 	// 0 will default to the minimum delay configured in the params
 	FeeUpdateDelay uint32 `protobuf:"varint,5,opt,name=fee_update_delay,json=feeUpdateDelay,proto3" json:"fee_update_delay,omitempty"`
-	// hex encoded bytes as the expected flow is users sending updates from the browser
+	// hex encoded bytes as the expected flow is users sending updates from the
+	// browser
 	PubKey string `protobuf:"bytes,6,opt,name=pub_key,json=pubKey,proto3" json:"pub_key,omitempty"`
 }
 
