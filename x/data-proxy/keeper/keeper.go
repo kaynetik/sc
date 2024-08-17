@@ -20,8 +20,8 @@ type Keeper struct {
 
 	Schema           collections.Schema
 	DataProxyConfigs collections.Map[[]byte, types.ProxyConfig]
-	// TODO queue
-	Params collections.Item[types.Params]
+	FeeUpdates       collections.KeySet[collections.Pair[int64, []byte]]
+	Params           collections.Item[types.Params]
 }
 
 func NewKeeper(cdc codec.BinaryCodec, storeService storetypes.KVStoreService, authority string) *Keeper {
@@ -29,6 +29,7 @@ func NewKeeper(cdc codec.BinaryCodec, storeService storetypes.KVStoreService, au
 	k := Keeper{
 		authority:        authority,
 		DataProxyConfigs: collections.NewMap(sb, types.DataProxyConfigPrefix, "configs", collections.BytesKey, codec.CollValue[types.ProxyConfig](cdc)),
+		FeeUpdates:       collections.NewKeySet(sb, types.FeeUpdatesPrefix, "fee_updates", collections.PairKeyCodec(collections.Int64Key, collections.BytesKey)),
 		Params:           collections.NewItem(sb, types.ParamsPrefix, "params", codec.CollValue[types.Params](cdc)),
 	}
 
@@ -57,4 +58,25 @@ func (k Keeper) GetDataProxyConfig(ctx context.Context, pubKey string) (result t
 	}
 
 	return config, nil
+}
+
+func (k Keeper) GetFeeUpdates(ctx context.Context, activationHeight int64) ([][]byte, error) {
+	pubkeys := make([][]byte, 0)
+	rng := collections.NewPrefixedPairRange[int64, []byte](activationHeight)
+
+	itr, err := k.FeeUpdates.Iterate(ctx, rng)
+	if err != nil {
+		return nil, err
+	}
+
+	keys, err := itr.Keys()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, k := range keys {
+		pubkeys = append(pubkeys, k.K2())
+	}
+
+	return pubkeys, nil
 }
