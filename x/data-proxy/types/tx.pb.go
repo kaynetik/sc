@@ -251,7 +251,7 @@ func (m *MsgEditDataProxy) GetPubKey() string {
 	return ""
 }
 
-// Returns the height at which the fee update will go into effect.
+// Returns the height after which the fee update will go into effect.
 type MsgEditDataProxyResponse struct {
 	UpdateHeight int64 `protobuf:"varint,1,opt,name=update_height,json=updateHeight,proto3" json:"update_height,omitempty"`
 }

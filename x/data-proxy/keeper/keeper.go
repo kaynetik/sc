@@ -3,11 +3,14 @@ package keeper
 import (
 	"context"
 	"encoding/hex"
+	"fmt"
 
 	"cosmossdk.io/collections"
 	storetypes "cosmossdk.io/core/store"
+	"cosmossdk.io/log"
 
 	"github.com/cosmos/cosmos-sdk/codec"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/sedaprotocol/seda-chain/x/data-proxy/types"
 )
@@ -79,4 +82,8 @@ func (k Keeper) GetFeeUpdates(ctx context.Context, activationHeight int64) ([][]
 	}
 
 	return pubkeys, nil
+}
+
+func (k Keeper) Logger(ctx sdk.Context) log.Logger {
+	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
