@@ -98,6 +98,7 @@ You can install that by running:
 
 ```bash
 sudo ./scripts/install_wasmvm.sh
+# Note: This script failed with its root dependencies on my machine `/lib/libwasmvm.arm64.so: No such file or directory` (M1 Mac).
 ```
 
 ## Building using Make
@@ -105,9 +106,17 @@ sudo ./scripts/install_wasmvm.sh
 To build the protobuf (only necessary if you made changes in the proto files) you will need to run:
 
 ```bash
-make prot-dep-install
+make proto-dep-install
 make proto-update-deps
 make proto-gen
+```
+
+### Note: Aside from these dependencies, I also had to have the following:
+
+```bash
+go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 ```
 
 To build, run:
